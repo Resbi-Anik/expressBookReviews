@@ -6,8 +6,10 @@ const regd_users = express.Router();
 let users = [];
 
 const isValid = (username)=>{ //returns boolean
-//write code to check is the username is valid
+  // Username is valid for registration if it is not already taken
+  return !users.some((user) => user.username === username);
 }
+
 
 const authenticatedUser = (username,password)=>{ //returns boolean
 //write code to check if username and password match the one we have in records.
