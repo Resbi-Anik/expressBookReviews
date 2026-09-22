@@ -1,0 +1,8 @@
+$ curl -X POST http://localhost:5000/register -H "Content-Type: application/json" -d '{"username":"resbi","password":"pass123"}'
+{"message":"User successfully registered. Now you can login"}
+
+$ curl -X POST http://localhost:5000/register -H "Content-Type: application/json" -d '{"username":"resbi","password":"pass123"}'
+{"message":"Username already exists"}
+
+$ curl -X POST http://localhost:5000/register -H "Content-Type: application/json" -d '{"username":"nopass"}'
+{"message":"Username and password are required"}
