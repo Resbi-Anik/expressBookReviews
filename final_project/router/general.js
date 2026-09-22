@@ -17,7 +17,24 @@ public_users.post("/register", (req,res) => {
     users.push({username: username, password: password});
     return res.status(200).json({message: "User successfully registered. Now you can login"});
   });
+
+  // Simulates fetching the book list asynchronously (e.g. from a database or API)
+const getBooks = () => {
+    return new Promise((resolve, reject) => {
+      resolve(books);
+    });
+  };
   
+  // Get the book list available in the shop using async-await
+  public_users.get('/', async function (req, res) {
+    try {
+      const bookList = await getBooks();
+      return res.status(200).send(JSON.stringify(bookList, null, 4));
+    } catch (error) {
+      return res.status(500).json({message: "Error fetching book list"});
+    }
+  });
+
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
   return res.status(200).send(JSON.stringify(books, null, 4));
