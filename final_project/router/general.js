@@ -73,6 +73,33 @@ public_users.get('/isbn/:isbn',function (req, res) {
     return res.status(404).json({message: "Book not found"});
   }
  });
+
+ // Simulates fetching books by author asynchronously
+const getBooksByAuthor = (author) => {
+    return new Promise((resolve, reject) => {
+      const matchingBooks = [];
+      Object.keys(books).forEach((isbn) => {
+        if (books[isbn].author === author) {
+          matchingBooks.push({isbn: isbn, ...books[isbn]});
+        }
+      });
+      if (matchingBooks.length > 0) {
+        resolve(matchingBooks);
+      } else {
+        reject(new Error("No books found for this author"));
+      }
+    });
+  };
+  
+  // Get book details based on author using async-await
+  public_users.get('/author/:author', async function (req, res) {
+    try {
+      const matchingBooks = await getBooksByAuthor(req.params.author);
+      return res.status(200).json({booksbyauthor: matchingBooks});
+    } catch (error) {
+      return res.status(404).json({message: "No books found for this author"});
+    }
+  });
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
