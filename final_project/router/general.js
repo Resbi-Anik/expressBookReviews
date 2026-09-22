@@ -35,6 +35,29 @@ const getBooks = () => {
     }
   });
 
+
+// Simulates fetching a book by ISBN asynchronously
+const getBookByIsbn = (isbn) => {
+    return new Promise((resolve, reject) => {
+      const book = books[isbn];
+      if (book) {
+        resolve(book);
+      } else {
+        reject(new Error("Book not found"));
+      }
+    });
+  };
+  
+  // Get book details based on ISBN using async-await
+  public_users.get('/isbn/:isbn', async function (req, res) {
+    try {
+      const book = await getBookByIsbn(req.params.isbn);
+      return res.status(200).json(book);
+    } catch (error) {
+      return res.status(404).json({message: "Book not found"});
+    }
+  });
+
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
   return res.status(200).send(JSON.stringify(books, null, 4));
